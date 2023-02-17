@@ -152,6 +152,26 @@
  */
 @property (nonatomic, assign, readonly) AVAssetExportSessionStatus status;
 
+/*!
+ @property performsMultiPassEncodingIfSupported
+ @abstract
+    Indicates whether the input should attempt to encode the source media data using multiple passes.
+ 
+ @discussion
+    The input may be able to achieve higher quality and/or lower data rate by performing multiple passes over the source media.  It does this by analyzing the media data that has been appended and re-encoding certain segments with different parameters.  In order to do this re-encoding, the media data for these segments must be appended again.  See -markCurrentPassAsFinished and the property currentPassDescription for the mechanism by which the input nominates segments for re-appending.
+ 
+    When the value of this property is YES, the value of readyForMoreMediaData for other inputs attached to the same AVAssetWriter may be NO more often and/or for longer periods of time.  In particular, the value of readyForMoreMediaData for inputs that do not (or cannot) perform multiple passes may start out as NO after -[AVAssetWriter startWriting] has been called and may not change to YES until after all multi-pass inputs have completed their final pass.
+ 
+    When the value of this property is YES, the input may store data in one or more temporary files before writing compressed samples to the output file.  Use the AVAssetWriter property directoryForTemporaryFiles if you need to control the location of temporary file writing.
+ 
+    The default value is NO, meaning that no additional analysis will occur and no segments will be re-encoded.  Not all asset writer input configurations (for example, inputs configured with certain media types or to use certain encoders) can benefit from performing multiple passes over the source media.  To determine whether the selected encoder can perform multiple passes, query the value of canPerformMultiplePasses after calling -startWriting.
+ 
+    For best results, do not set both this property and expectsMediaDataInRealTime to YES.
+
+    This property cannot be set after writing on the receiver's AVAssetWriter has started.
+ */
+@property (nonatomic) BOOL performsMultiPassEncodingIfSupported;
+
 /**
  * Returns an asset export session configured with a specified asset.
  *
