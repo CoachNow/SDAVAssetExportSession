@@ -337,6 +337,11 @@
 		naturalSize.width = naturalSize.height;
 		naturalSize.height = width;
 	}
+
+	if (naturalSize.width < 0 || naturalSize.height < 0) {
+		return nil;
+	}
+
 	videoComposition.renderSize = naturalSize;
 	// center inside
 	{
