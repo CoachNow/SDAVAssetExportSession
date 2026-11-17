@@ -145,10 +145,7 @@
     //
     //Audio output
     //
-    // Only the tracks a player would play: the system camera on iPhone 16/17 Pro adds a disabled
-    // spatial audio track (`apac`) that the audio mix output can't decode, failing the whole export.
-    NSArray *audioTracks = [[self.asset tracksWithMediaType:AVMediaTypeAudio]
-                            filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"enabled == YES"]];
+    NSArray *audioTracks = self.audioTracks ?: [self.asset tracksWithMediaType:AVMediaTypeAudio];
     if (audioTracks.count > 0) {
       self.audioOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:audioTracks audioSettings:nil];
       self.audioOutput.alwaysCopiesSampleData = NO;
